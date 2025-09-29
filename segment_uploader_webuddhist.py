@@ -3,11 +3,14 @@ import requests
 import hashlib
 import logging
 
+from utils import (
+    get_token,
+    read_json_file
+)
+
 WEBUDDHIST_API_URL = "https://api.webuddhist.com/api/v1/segments"
 
-TOKEN_API_URL = "https://api.webuddhist.com/api/v1/auth/login"
-
-FILE_PATH = "choejuk/choejuk_payload/choejuk_root_text_segment_payload.json"
+SEGMENT_PAYLOAD_FILE_PATH = "choejuk/choejuk_payload/choejuk_root_text_segment_payload.json"
 
 SEGMENT_CONTENT_WITH_SEGMENT_ID_FILE_PATH = "choejuk/choejuk_api_response/choejuk_segment_content_with_segment_id.json"
 
@@ -23,12 +26,6 @@ logging.basicConfig(
     level=logging.INFO,
 )
 logger = logging.getLogger(__name__)
-
-def get_token():
-    email = input("Enter your email: ")
-    password = input("Enter your password: ")
-    response = requests.post(TOKEN_API_URL, json={"email": email, "password": password})
-    return response.json()["auth"]["access_token"]
 
 def upload_segments_to_webuddhist(data, token):
     logger.info("Uploading segments to webuddhist")
@@ -67,8 +64,7 @@ if __name__ == "__main__":
 
     logger.info("Reading file")
 
-    with open(FILE_PATH, "r", encoding="utf-8") as file:
-        data = json.load(file)
+    data = read_json_file(SEGMENT_PAYLOAD_FILE_PATH)
 
     logger.info("File read")
     
