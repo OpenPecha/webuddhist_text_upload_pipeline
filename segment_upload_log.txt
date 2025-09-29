@@ -83,3 +83,30 @@
 2025-09-29 15:11:21,994 [INFO] Uploading segments to webuddhist
 2025-09-29 15:11:22,984 [INFO] Storing segment content with segment id in json
 2025-09-29 15:11:22,988 [INFO] Segment content with segment id and hash id with segment content stored in json
+2025-09-29 15:50:41,091 [INFO] Starting upload process
+2025-09-29 15:50:52,674 [INFO] Token obtained
+2025-09-29 15:50:54,142 [INFO] Reading file
+2025-09-29 15:50:55,486 [INFO] File read
+2025-09-29 15:50:55,486 [INFO] Uploading segments to webuddhist
+2025-09-29 15:50:56,137 [INFO] Storing segment content with segment id in json
+2025-09-29 15:51:19,044 [INFO] Starting upload process
+2025-09-29 15:51:29,106 [INFO] Token obtained
+2025-09-29 15:51:29,106 [INFO] Reading file
+2025-09-29 15:51:29,108 [INFO] File read
+2025-09-29 15:51:29,108 [INFO] Uploading segments to webuddhist
+2025-09-29 15:51:29,672 [INFO] Storing segment content with segment id in json
+2025-09-29 15:51:29,675 [INFO] Segment content with segment id and hash id with segment content stored in json
+2025-09-29 16:33:14,224 [INFO] Starting upload process
+2025-09-29 16:33:24,103 [INFO] Token obtained
+2025-09-29 16:33:24,103 [INFO] Reading file
+2025-09-29 16:33:24,104 [INFO] File read
+2025-09-29 16:33:24,104 [INFO] Uploading segments to webuddhist
+2025-09-29 16:33:25,133 [INFO] Storing segment content with segment id in json
+2025-09-29 16:33:25,134 [INFO] Segment content with segment id and hash id with segment content stored in json
+2025-09-29 16:47:12,769 [INFO] Starting upload process
+2025-09-29 16:47:20,739 [INFO] Token obtained
+2025-09-29 16:47:20,740 [INFO] Reading file
+2025-09-29 16:47:20,742 [INFO] File read
+2025-09-29 16:47:20,742 [INFO] Uploading segments to webuddhist
+2025-09-29 16:47:21,733 [INFO] Storing segment content with segment id in json
+2025-09-29 16:47:21,735 [INFO] Segment content with segment id and hash id with segment content stored in json

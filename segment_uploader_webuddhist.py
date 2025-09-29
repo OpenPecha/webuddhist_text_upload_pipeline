@@ -6,14 +6,17 @@ import unicodedata
 
 from utils import (
     get_token,
-    read_json_file
+    read_json_file,
+    fuzzy_match
 )
 
 WEBUDDHIST_API_URL = "https://api.webuddhist.com/api/v1/segments"
 
-SEGMENT_PAYLOAD_FILE_PATH = "heart_sutra/heart_sutra_payload/heart_sutra_root_text_segment_payload.json"
+TEXT_NAME = "heart_sutra"
 
-SEGMENT_CONTENT_WITH_SEGMENT_ID_FILE_PATH = "heart_sutra/heart_sutra_api_response/heart_sutra_segment_content_with_segment_id.json"
+SEGMENT_PAYLOAD_FILE_PATH = f"{TEXT_NAME}/heart_sutra_payload/{TEXT_NAME}_root_text_segment_payload.json"
+
+SEGMENT_CONTENT_WITH_SEGMENT_ID_FILE_PATH = f"{TEXT_NAME}/heart_sutra_api_response/{TEXT_NAME}_segment_content_with_segment_id.json"
 
 LOG_FILE = "segment_upload_log.txt"
 
@@ -34,13 +37,13 @@ def upload_segments_to_webuddhist(data, token):
 
 def store_segment_content_with_segment_id_in_json(data):
     logger.info("Storing segment content with segment id in json")
-    dict_segment_content_with_segment_id = {}
+    list_segment_content_with_segment_id = []
     for _ in data["segments"]:
-        segment_content = _["segment_content"]
-        dict_segment_content_with_segment_id[segment_content] = _["id"]
+        segment_content = _["content"]
+        list_segment_content_with_segment_id.append({"segment_content": segment_content, "id": _["id"]})
     
     with open(SEGMENT_CONTENT_WITH_SEGMENT_ID_FILE_PATH, "w", encoding="utf-8") as file:
-        json.dump(dict_segment_content_with_segment_id, file, ensure_ascii=False, indent=4)
+        json.dump(list_segment_content_with_segment_id, file, ensure_ascii=False, indent=4)
 
 
     logger.info("Segment content with segment id and hash id with segment content stored in json")
