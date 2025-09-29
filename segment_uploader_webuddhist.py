@@ -2,6 +2,7 @@ import json
 import requests
 import hashlib
 import logging
+import unicodedata
 
 from utils import (
     get_token,
@@ -10,11 +11,9 @@ from utils import (
 
 WEBUDDHIST_API_URL = "https://api.webuddhist.com/api/v1/segments"
 
-SEGMENT_PAYLOAD_FILE_PATH = "choejuk/choejuk_payload/choejuk_root_text_segment_payload.json"
+SEGMENT_PAYLOAD_FILE_PATH = "heart_sutra/heart_sutra_payload/heart_sutra_root_text_segment_payload.json"
 
-SEGMENT_CONTENT_WITH_SEGMENT_ID_FILE_PATH = "choejuk/choejuk_api_response/choejuk_segment_content_with_segment_id.json"
-
-HASH_ID_WITH_SEGMENT_CONTENT_FILE_PATH = "choejuk/choejuk_api_response/choejuk_hash_id_with_segment_content.json"
+SEGMENT_CONTENT_WITH_SEGMENT_ID_FILE_PATH = "heart_sutra/heart_sutra_api_response/heart_sutra_segment_content_with_segment_id.json"
 
 LOG_FILE = "segment_upload_log.txt"
 
@@ -36,19 +35,13 @@ def upload_segments_to_webuddhist(data, token):
 def store_segment_content_with_segment_id_in_json(data):
     logger.info("Storing segment content with segment id in json")
     dict_segment_content_with_segment_id = {}
-    dict_hash_id_with_segment_content = {}
     for _ in data["segments"]:
-        hash_content = hashlib.sha256(_["content"].encode("utf-8")).hexdigest()
-        dict_segment_content_with_segment_id[hash_content] = _["id"]
-        dict_hash_id_with_segment_content[hash_content] = _["content"]
+        segment_content = _["segment_content"]
+        dict_segment_content_with_segment_id[segment_content] = _["id"]
     
     with open(SEGMENT_CONTENT_WITH_SEGMENT_ID_FILE_PATH, "w", encoding="utf-8") as file:
         json.dump(dict_segment_content_with_segment_id, file, ensure_ascii=False, indent=4)
-    
 
-
-    with open(HASH_ID_WITH_SEGMENT_CONTENT_FILE_PATH, "w", encoding="utf-8") as file:
-        json.dump(dict_hash_id_with_segment_content, file, ensure_ascii=False, indent=4)
 
     logger.info("Segment content with segment id and hash id with segment content stored in json")
 
