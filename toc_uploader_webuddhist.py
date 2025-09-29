@@ -3,8 +3,7 @@ import requests
 
 from utils import (
     get_token,
-    read_json_file,
-    print_segment_ids_from_toc,
+    read_json_file
 )
 
 TOC_PAYLOAD_FILE_PATH = "heart_sutra/heart_sutra_payload/toc.json"
