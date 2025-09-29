@@ -1,0 +1,18 @@
+[
+    {
+        "group_type": "text",
+        "title": "chonjuk english translation",
+        "language": "en",
+        "published_by": "pecha",
+        "category_id": "y293ry930r",
+        "text_type": "version"
+    },
+    {
+        "group_type": "commenatry",
+        "title": "chonjuk chinese translation",
+        "language": "zh",
+        "published_by": "pecha",
+        "category_id": "y293ry930r",
+        "text_type": "commentary"
+    }
+]
