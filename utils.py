@@ -78,4 +78,4 @@ def print_hidden_literals(text: str):
 
 
 if __name__ == "__main__":
-    print(jaro_winkler_score(" བམ་པོ་གཅིག་གོ །\n", "བམ་པོ་གཅིག་གོ །\n"))
+    print(fuzzy_match(" བམ་པོ་གཅིག་གོ །\n", "བམ་པོ་གཅིག་གོ །\n"))

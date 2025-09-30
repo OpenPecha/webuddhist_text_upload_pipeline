@@ -51,6 +51,8 @@ class SegmentUploader:
         response = self.upload_segments_to_webuddhist(self.payload_data, token)
         self.store_segment_content_with_segment_id_in_json(response)
 
+        logger.info("Segments uploaded successfully for text_id: ", self.payload_data["text_id"])
+
 
 if __name__ == "__main__":
     

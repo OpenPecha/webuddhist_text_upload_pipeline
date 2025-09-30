@@ -1,10 +1,21 @@
 import requests
-
+import logging
 from utils import (
     get_token,
     read_json_file,
     fuzzy_match
 )
+
+LOG_FILE = "toc_upload_log.txt"
+
+logging.basicConfig(
+    filename=LOG_FILE,
+    filemode="a",
+    encoding="utf-8",
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    level=logging.INFO,
+)
+logger = logging.getLogger(__name__)
 
 class TableOfContentsUploader:
     def __init__(self, toc_upload_url: str = "https://api.webuddhist.com/api/v1/texts/table-of-content"):
@@ -38,6 +49,7 @@ class TableOfContentsUploader:
         token = get_token()
         updated_toc_data = self.replace_segment_content_with_id_in_toc(self.payload_data, self.text_id_look_up_list)
         response = self.upload_toc_to_webuddhist(updated_toc_data, token)
+        logger.info("Table of contents uploaded successfully for text_id: ", self.payload_data["text_id"])
         return response
 
 if __name__ == "__main__":
