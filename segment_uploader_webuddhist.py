@@ -1,8 +1,6 @@
 import json
 import requests
-import hashlib
 import logging
-import unicodedata
 
 from utils import (
     get_token,
@@ -24,11 +22,10 @@ logger = logging.getLogger(__name__)
 class SegmentUploader:
     def __init__(self, segment_upload_url: str = "https://api.webuddhist.com/api/v1/segments"):
         self.text_name = input("Enter the text name: ")
-        self.data_file_path = f"{self.text_name}/{self.text_name}_root_text_segment_payload.json"
-        self.data = read_json_file(self.data_file_path)
+        self.payload_data_file_path = f"{self.text_name}/{self.text_name}_payload/{self.text_name}_root_text_segment_payload.json"
+        self.payload_data = read_json_file(self.payload_data_file_path)
         self.segment_upload_url = segment_upload_url
-        self.segment_payload_file_path = f"{self.text_name}/heart_sutra_payload/{self.text_name}_root_text_segment_payload.json"
-        self.segment_content_with_segment_id_file_path = f"{self.text_name}/heart_sutra_api_response/{self.text_name}_segment_content_with_segment_id.json"
+        self.segment_content_with_segment_id_file_path = f"{self.text_name}/{self.text_name}_api_response/{self.text_name}_segment_content_with_segment_id.json"
 
     def upload_segments_to_webuddhist(self, token):
         logger.info("Uploading segments to webuddhist")
@@ -58,6 +55,6 @@ class SegmentUploader:
 if __name__ == "__main__":
     
     segment_uploader = SegmentUploader()
-    
+
     segment_uploader.upload_segments()
     
