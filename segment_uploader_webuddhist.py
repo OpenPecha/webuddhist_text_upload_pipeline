@@ -22,10 +22,11 @@ logger = logging.getLogger(__name__)
 class SegmentUploader:
     def __init__(self, segment_upload_url: str = "https://api.webuddhist.com/api/v1/segments"):
         self.text_name = input("Enter the text name: ")
-        self.payload_data_file_path = f"{self.text_name}/{self.text_name}_payload/{self.text_name}_root_text_segment_payload.json"
+        self.root_or_commentary = input("Enter the root or commentary_[1,2,3]: ")
+        self.payload_data_file_path = f"{self.text_name}/{self.text_name}_payload/{self.text_name}_{self.root_or_commentary}_text_segment_payload.json"
         self.payload_data = read_json_file(self.payload_data_file_path)
         self.segment_upload_url = segment_upload_url
-        self.segment_content_with_segment_id_file_path = f"{self.text_name}/{self.text_name}_api_response/{self.text_name}_segment_content_with_segment_id.json"
+        self.segment_content_with_segment_id_file_path = f"{self.text_name}/{self.text_name}_api_response/{self.text_name}_{self.root_or_commentary}_segment_content_with_segment_id.json"
 
     def upload_segments_to_webuddhist(self, payload_data,token):
         logger.info("Uploading segments to webuddhist")
