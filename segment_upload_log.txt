@@ -110,3 +110,6 @@
 2025-09-29 16:47:20,742 [INFO] Uploading segments to webuddhist
 2025-09-29 16:47:21,733 [INFO] Storing segment content with segment id in json
 2025-09-29 16:47:21,735 [INFO] Segment content with segment id and hash id with segment content stored in json
+2025-09-30 09:49:08,812 [INFO] Uploading segments to webuddhist
+2025-09-30 09:49:09,418 [INFO] Storing segment content with segment id in json
+2025-09-30 09:49:09,420 [INFO] Segment content with segment id and hash id with segment content stored in json

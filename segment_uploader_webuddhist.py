@@ -27,16 +27,16 @@ class SegmentUploader:
         self.segment_upload_url = segment_upload_url
         self.segment_content_with_segment_id_file_path = f"{self.text_name}/{self.text_name}_api_response/{self.text_name}_segment_content_with_segment_id.json"
 
-    def upload_segments_to_webuddhist(self, token):
+    def upload_segments_to_webuddhist(self, payload_data,token):
         logger.info("Uploading segments to webuddhist")
-        response = requests.post(self.segment_upload_url, json=self.data, headers={"Authorization": f"Bearer {token}"})
+        response = requests.post(self.segment_upload_url, json=payload_data, headers={"Authorization": f"Bearer {token}"})
         logger.info("Segments uploaded, ", response.status_code)
         return response.json()
 
-    def store_segment_content_with_segment_id_in_json(self, data):
+    def store_segment_content_with_segment_id_in_json(self, response_data):
         logger.info("Storing segment content with segment id in json")
         list_segment_content_with_segment_id = []
-        for _ in data["segments"]:
+        for _ in response_data["segments"]:
             segment_content = _["content"]
             list_segment_content_with_segment_id.append({"segment_content": segment_content, "id": _["id"]})
         
@@ -48,7 +48,7 @@ class SegmentUploader:
 
     def upload_segments(self):
         token = get_token()
-        response = self.upload_segments_to_webuddhist(self.data, token)
+        response = self.upload_segments_to_webuddhist(self.payload_data, token)
         self.store_segment_content_with_segment_id_in_json(response)
 
 

@@ -13,9 +13,10 @@ class TableOfContentsUploader:
         self.payload_data = read_json_file(self.payload_data_file_path)
         self.toc_upload_url = toc_upload_url
         self.text_id_look_up_json_path = f"{self.text_name}/{self.text_name}_api_response/{self.text_name}_segment_content_with_segment_id.json"
+        self.text_id_look_up_list = read_json_file(self.text_id_look_up_json_path)
 
-    def upload_toc_to_webuddhist(self, data, token):
-        response = requests.post(self.toc_upload_url, json=data, headers={"Authorization": f"Bearer {token}"})
+    def upload_toc_to_webuddhist(self, payload_data, token):
+        response = requests.post(self.toc_upload_url, json=payload_data, headers={"Authorization": f"Bearer {token}"})
         return response.json()
 
     def search_matching_content_index(self, content, look_up_list, last_found):
@@ -24,14 +25,14 @@ class TableOfContentsUploader:
                 return i
         raise ValueError(f"Content {content} not found in look_up_list")
 
-    def replace_segment_content_with_id_in_toc(self, data, text_id_look_up_list):
+    def replace_segment_content_with_id_in_toc(self, payload_data, text_id_look_up_list):
         last_found = 0
-        for section in data["sections"]:
+        for section in payload_data["sections"]:
             for segment in section["segments"]:
                 found_index = self.search_matching_content_index(content = segment['segment_id'], look_up_list = text_id_look_up_list, last_found = last_found)
                 segment['segment_id'] = text_id_look_up_list[found_index]["id"]
                 last_found = found_index + 1
-        return data
+        return payload_data
 
     def upload_toc(self):
         token = get_token()
