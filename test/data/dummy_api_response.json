@@ -1,0 +1,24 @@
+{
+    "segments": [
+        {
+            "id": "seg_001",
+            "content": "This is the first segment\n",
+            "type": "source",
+            "mapping": []
+        },
+        {
+            "id": "seg_002",
+            "content": "This is the second segment\n",
+            "type": "source",
+            "mapping": []
+        },
+        {
+            "id": "seg_003",
+            "content": "This is the first segment\n",
+            "type": "source",
+            "mapping": []
+        }
+    ],
+    "text_id": "0626e7f3-76bf-46fc-a6eb-bd9d5be01e34",
+    "status": "success"
+}

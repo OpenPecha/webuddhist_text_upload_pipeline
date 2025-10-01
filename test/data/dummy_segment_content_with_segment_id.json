@@ -1,0 +1,14 @@
+[
+    {
+        "segment_content": "This is the first segment\n",
+        "id": "seg_001"
+    },
+    {
+        "segment_content": "This is the second segment\n",
+        "id": "seg_002"
+    },
+    {
+        "segment_content": "This is the first segment\n",
+        "id": "seg_003"
+    }
+]
