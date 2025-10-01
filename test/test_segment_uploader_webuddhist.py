@@ -45,7 +45,14 @@ class TestSegmentUploader(TestCase):
         self.assertEqual(uploader.text_name, self.test_text_name)
         self.assertEqual(uploader.root_or_commentary, self.test_root_or_commentary)
         self.assertEqual(uploader.payload_data, self.payload_data)
-        expected_payload_path = f"{self.test_text_name}/{self.test_text_name}_payload/{self.test_text_name}_{self.test_root_or_commentary}_text_segment_payload.json"
+        expected_payload_path = str(
+            (Path(__file__).parent.parent
+             / "src"
+             / "data"
+             / self.test_text_name
+             / f"{self.test_text_name}_payload"
+             / f"{self.test_text_name}_{self.test_root_or_commentary}_text_segment_payload.json")
+        )
         self.assertEqual(uploader.payload_data_file_path, expected_payload_path)
 
     @patch('segment_uploader_webuddhist.requests.post')

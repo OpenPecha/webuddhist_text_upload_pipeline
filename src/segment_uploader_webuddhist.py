@@ -1,6 +1,16 @@
 import json
 import requests
 import logging
+import sys
+from pathlib import Path
+
+# Ensure project root is on sys.path so we can import config and utils
+project_root = str(Path(__file__).resolve().parent.parent)
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = BASE_DIR / "data"
 
 from config import config
 from utils import (
@@ -24,10 +34,20 @@ class SegmentUploader:
     def __init__(self, segment_upload_url: str = None):
         self.text_name = input("Enter the text name: ")
         self.root_or_commentary = input("Enter the root or commentary_[1,2,3]: ")
-        self.payload_data_file_path = f"{self.text_name}/{self.text_name}_payload/{self.text_name}_{self.root_or_commentary}_text_segment_payload.json"
+        self.payload_data_file_path = str(
+            DATA_DIR
+            / self.text_name
+            / f"{self.text_name}_payload"
+            / f"{self.text_name}_{self.root_or_commentary}_text_segment_payload.json"
+        )
         self.payload_data = read_json_file(self.payload_data_file_path)
         self.segment_upload_url = segment_upload_url or config.get_segments_url()
-        self.segment_content_with_segment_id_file_path = f"{self.text_name}/{self.text_name}_api_response/{self.text_name}_{self.root_or_commentary}_segment_content_with_segment_id.json"
+        self.segment_content_with_segment_id_file_path = str(
+            DATA_DIR
+            / self.text_name
+            / f"{self.text_name}_api_response"
+            / f"{self.text_name}_{self.root_or_commentary}_segment_content_with_segment_id.json"
+        )
 
     def upload_segments_to_webuddhist(self, payload_data,token):
         logger.info("Uploading segments to webuddhist")
