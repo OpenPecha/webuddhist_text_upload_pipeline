@@ -23,6 +23,27 @@ pip install -r requirements.txt
 python -m pytest test/test_segment_uploader_webuddhist.py -v
 ```
 
+## 🔧 Configure Environment
+
+Set up your API configuration:
+
+```bash
+# Copy the environment template
+cp env.template .env
+
+# Edit with your actual API details
+nano .env
+```
+
+Your `.env` file should look like:
+```bash
+WEBUDDHIST_API_BASE_URL=https://your-api-domain.com
+WEBUDDHIST_SEGMENTS_ENDPOINT=/api/v1/segments
+WEBUDDHIST_TOC_ENDPOINT=/api/v1/texts/table-of-content
+WEBUDDHIST_AUTH_ENDPOINT=/api/v1/auth/login
+ENVIRONMENT=development
+```
+
 ## 📁 Prepare Your Files
 
 Create the directory structure for your text:

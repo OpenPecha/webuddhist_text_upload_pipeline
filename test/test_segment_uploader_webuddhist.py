@@ -21,7 +21,7 @@ class TestSegmentUploader(TestCase):
         self.test_root_or_commentary = "root"
         self.payload_data_file_path = self.DATA_DIR / "dummy_segment_upload_payload.json"
         self.payload_data = read_json_file(str(self.payload_data_file_path))
-        self.segment_upload_url = "https://api.webuddhist.com/api/v1/segments"
+        self.segment_upload_url = "https://api.example.com/api/v1/segments"
         self.segment_content_with_segment_id_file_path = self.DATA_DIR / "dummy_segment_content_with_segment_id.json"
         
         # Load expected API response

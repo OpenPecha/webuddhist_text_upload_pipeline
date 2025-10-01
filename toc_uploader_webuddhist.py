@@ -1,5 +1,7 @@
 import requests
 import logging
+
+from config import config
 from utils import (
     get_token,
     read_json_file,
@@ -18,12 +20,12 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class TableOfContentsUploader:
-    def __init__(self, toc_upload_url: str = "https://api.webuddhist.com/api/v1/texts/table-of-content"):
+    def __init__(self, toc_upload_url: str = None):
         self.text_name = input("Enter the text name: ")
         self.root_or_commentary = input("Enter the root or commentary_[1,2,3]: ")
         self.payload_data_file_path = f"{self.text_name}/{self.text_name}_payload/{self.text_name}_{self.root_or_commentary}_text_toc_payload.json"
         self.payload_data = read_json_file(self.payload_data_file_path)
-        self.toc_upload_url = toc_upload_url
+        self.toc_upload_url = toc_upload_url or config.get_toc_url()
         self.text_id_look_up_json_path = f"{self.text_name}/{self.text_name}_api_response/{self.text_name}_{self.root_or_commentary}_segment_content_with_segment_id.json"
         self.text_id_look_up_list = read_json_file(self.text_id_look_up_json_path)
 

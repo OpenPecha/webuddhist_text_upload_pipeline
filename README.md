@@ -106,15 +106,46 @@ python -c "import requests; print('Dependencies installed successfully')"
 
 ## ⚙️ Configuration
 
-### API Endpoints
-The application uses these default WebBuddhist API endpoints:
-- **Segments**: `https://api.webuddhist.com/api/v1/segments`
-- **Table of Contents**: `https://api.webuddhist.com/api/v1/texts/table-of-content`
+### Environment Variables Setup
+
+The application uses environment variables for configuration to keep sensitive information secure.
+
+#### 1. Create Environment File
+```bash
+# Copy the template file
+cp env.template .env
+
+# Edit the .env file with your actual values
+nano .env  # or use your preferred editor
+```
+
+#### 2. Configure Your .env File
+```bash
+# WebBuddhist API Configuration
+WEBUDDHIST_API_BASE_URL=https://your-api-domain.com
+WEBUDDHIST_SEGMENTS_ENDPOINT=/api/v1/segments
+WEBUDDHIST_TOC_ENDPOINT=/api/v1/texts/table-of-content
+WEBUDDHIST_AUTH_ENDPOINT=/api/v1/auth/login
+
+# Optional: Pre-configure credentials (not recommended for production)
+# WEBUDDHIST_EMAIL=your-email@example.com
+# WEBUDDHIST_PASSWORD=your-password
+
+# Environment
+ENVIRONMENT=development
+LOG_LEVEL=INFO
+```
+
+#### 3. Security Notes
+- **Never commit your `.env` file** to version control
+- The `.env` file is already in `.gitignore`
+- For production, use proper secret management systems
+- If credentials are not in `.env`, the application will prompt for them
 
 ### Authentication
-You'll need WebBuddhist API credentials. The application will prompt for:
-- Email address
-- Password
+You'll need WebBuddhist API credentials. You can either:
+1. **Set them in `.env` file** (not recommended for production)
+2. **Enter them when prompted** (recommended for security)
 
 ## 🎯 Usage
 
@@ -280,17 +311,24 @@ Test data is stored in `test/data/`:
 
 ## 🌐 API Endpoints
 
+The application uses configurable API endpoints defined in your `.env` file:
+
 ### Segments Endpoint
-- **URL**: `https://api.webuddhist.com/api/v1/segments`
+- **URL**: `{WEBUDDHIST_API_BASE_URL}{WEBUDDHIST_SEGMENTS_ENDPOINT}`
 - **Method**: POST
 - **Headers**: `Authorization: Bearer <token>`
 - **Body**: JSON payload with segments
 
 ### Table of Contents Endpoint
-- **URL**: `https://api.webuddhist.com/api/v1/texts/table-of-content`
+- **URL**: `{WEBUDDHIST_API_BASE_URL}{WEBUDDHIST_TOC_ENDPOINT}`
 - **Method**: POST
 - **Headers**: `Authorization: Bearer <token>`
 - **Body**: JSON payload with TOC structure
+
+### Authentication Endpoint
+- **URL**: `{WEBUDDHIST_API_BASE_URL}{WEBUDDHIST_AUTH_ENDPOINT}`
+- **Method**: POST
+- **Body**: JSON with email and password
 
 ## 🔍 Troubleshooting
 

@@ -5,12 +5,15 @@ import hashlib
 import unicodedata
 import Levenshtein
 
-TOKEN_API_URL = "https://api.webuddhist.com/api/v1/auth/login"
+from config import config
 
 def get_token():
-    email = input("Enter your email: ")
-    password = input("Enter your password: ")
-    response = requests.post(TOKEN_API_URL, json={"email": email, "password": password})
+    # Try to get credentials from environment first
+    email = config.EMAIL or input("Enter your email: ")
+    password = config.PASSWORD or input("Enter your password: ")
+    
+    auth_url = config.get_auth_url()
+    response = requests.post(auth_url, json={"email": email, "password": password})
     return response.json()["auth"]["access_token"]
 
 def read_json_file(file_path):

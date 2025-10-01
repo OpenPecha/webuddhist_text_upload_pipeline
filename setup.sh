@@ -41,7 +41,21 @@ if [ -f "requirements.txt" ]; then
     pip install -r requirements.txt
 else
     echo "❌ requirements.txt not found. Installing basic dependencies..."
-    pip install requests Levenshtein pydantic pytest
+    pip install requests Levenshtein pydantic pytest python-dotenv
+fi
+
+# Setup environment file
+echo "🔧 Setting up environment configuration..."
+if [ ! -f ".env" ]; then
+    if [ -f "env.template" ]; then
+        cp env.template .env
+        echo "✅ Created .env file from template"
+        echo "⚠️  Please edit .env file with your actual API configuration"
+    else
+        echo "⚠️  env.template not found. You'll need to create .env manually"
+    fi
+else
+    echo "✅ .env file already exists"
 fi
 
 # Verify installation
@@ -61,9 +75,10 @@ if [ $? -eq 0 ]; then
     echo ""
     echo "📋 Next steps:"
     echo "1. Activate the virtual environment: source .venv/bin/activate"
-    echo "2. Prepare your text files in the required directory structure"
-    echo "3. Run the segment uploader: python segment_uploader_webuddhist.py"
-    echo "4. Check the README.md for detailed usage instructions"
+    echo "2. Configure your .env file with actual API endpoints and credentials"
+    echo "3. Prepare your text files in the required directory structure"
+    echo "4. Run the segment uploader: python segment_uploader_webuddhist.py"
+    echo "5. Check the README.md for detailed usage instructions"
     echo ""
     echo "📖 For help, run: cat README.md | head -50"
 else
