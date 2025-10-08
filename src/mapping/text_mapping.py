@@ -1,5 +1,23 @@
 import json
 import requests
+import sys
+from pathlib import Path
+
+# Add project root to Python path for imports
+project_root = str(Path(__file__).resolve().parent.parent.parent)
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+# Add src directory to Python path
+src_dir = str(Path(__file__).resolve().parent.parent)
+if src_dir not in sys.path:
+    sys.path.insert(0, src_dir)
+
+# Define base directory for file paths
+BASE_DIR = Path(__file__).resolve().parent
+MAPPING_DATA_DIR = BASE_DIR / "mapping_data"
+LOOKUP_DIR = BASE_DIR / "lookup"
+MAPPING_PAYLOAD_DIR = BASE_DIR / "mapping_payload"
 
 from utils import (
     read_json_file,
@@ -21,19 +39,19 @@ class CommentaryTextMapping:
         self.mapping_upload_url = mapping_upload_url
 
         self.mapping_file_name = input("Enter the mapping file name: ")
-        self.mapping_file_name_path = f"mapping_data/{self.mapping_file_name}.json"
+        self.mapping_file_name_path = str(MAPPING_DATA_DIR / f"{self.mapping_file_name}.json")
         self.mapping_data = read_json_file(self.mapping_file_name_path)
         
         self.look_up_list_file_name_root = input("Enter the look up list file name for root: ")
         self.look_up_list_file_name_commentary = input("Enter the look up list file name for commentary: ")
         
-        self.look_up_list_file_name_root_path = f"lookup/root/{self.look_up_list_file_name_root}.json"
-        self.look_up_list_file_name_commentary_path = f"lookup/commentary/{self.look_up_list_file_name_commentary}.json"
+        self.look_up_list_file_name_root_path = str(LOOKUP_DIR / "root" / f"{self.look_up_list_file_name_root}.json")
+        self.look_up_list_file_name_commentary_path = str(LOOKUP_DIR / "commentary" / f"{self.look_up_list_file_name_commentary}.json")
 
         self.look_up_list_root = read_json_file(self.look_up_list_file_name_root_path)
         self.look_up_list_commentary = read_json_file(self.look_up_list_file_name_commentary_path)
 
-        self.mapping_payload_file_path = f"mapping_payload/{self.mapping_file_name}_mapping_payload.json"
+        self.mapping_payload_file_path = str(MAPPING_PAYLOAD_DIR / f"{self.mapping_file_name}_mapping_payload.json")
 
     def validate_mapping_data_present_in_look_up_list(self):
         last_found_root = 0
@@ -41,7 +59,7 @@ class CommentaryTextMapping:
         for mapping in self.mapping_data:
             root_found = False
             commentary_found = False
-            if not mapping["root"] or len(mapping["root"]) == 0:
+            if not mapping["root"] or len(mapping["root"]) == 0 or not mapping["commentary"] or len(mapping["commentary"]) == 0:
                 continue
             
             for i in range(last_found_root, len(self.look_up_list_root)):
@@ -131,3 +149,5 @@ class CommentaryTextMapping:
 if __name__ == "__main__":
 
     text_mapping = CommentaryTextMapping()
+
+    text_mapping.map_text_and_upload_to_webuddhist()

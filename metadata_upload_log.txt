@@ -1,0 +1,1 @@
+2025-10-08 10:15:06,762 [INFO] Group created: 404 {"detail":"Not Found"}

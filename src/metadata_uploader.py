@@ -63,8 +63,8 @@ def read_json_file(file_path: str):
     
 
 if __name__ == "__main__":
-    metadata = read_json_file("data/metadata.json")
-    metadata_uploader = MetadataUploader(api_key="your_api_key")
+    metadata = read_json_file("src/data/metadata.json")
+    metadata_uploader = MetadataUploader(api_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlbnppbnRzZXJpbmdAbW9ubGFtLmFpIiwibmFtZSI6IlRlbnppbiBUc2VyaW5nIiwiaXNzIjoiaHR0cHM6Ly9wZWNoYS12Mi5vcmciLCJhdWQiOiJodHRwczovL3BlY2hhLXYyLm9yZyIsImlhdCI6MTc1OTg5ODY5MCwiZXhwIjoxNzU5OTAwNDkwfQ.F08SCG--Cpg35s4lsvjZNfUwF4DNRkVzMLpFv66lJ_k")
     for metadata in metadata:
         metadata_uploader.upload_metadata(metadata)
         
