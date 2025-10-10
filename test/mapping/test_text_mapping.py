@@ -70,6 +70,6 @@ class TestCommentaryTextMapping(TestCase):
 
         replace_mapping_root_display_text_with_segment_id = text_mapping.replace_mapping_root_display_text_with_id()
 
-        self.assertEqual(is_mapping_root_segment_present_in_root_lookup_list, True)
-        self.assertEqual(replace_mapping_root_display_text_with_segment_id, True)
+        self.assertTrue(is_mapping_root_segment_present_in_root_lookup_list)
+        self.assertTrue(replace_mapping_root_display_text_with_segment_id)
         self.assertEqual(text_mapping.mapping_data, self.expected_replaced_root_text_with_segment_id)
