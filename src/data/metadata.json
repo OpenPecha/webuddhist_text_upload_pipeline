@@ -1,18 +1,10 @@
 [
     {
-        "group_type": "text",
-        "title": "chonjuk english translation",
-        "language": "en",
+        "group_type": "commentary",
+        "title": "heart_sutra_commentary_2",
+        "language": "bo",
         "published_by": "pecha",
-        "category_id": "y293ry930r",
+        "category_id": "67dd2402d9f06ab28feedc94",
         "text_type": "version"
-    },
-    {
-        "group_type": "commenatry",
-        "title": "chonjuk chinese translation",
-        "language": "zh",
-        "published_by": "pecha",
-        "category_id": "y293ry930r",
-        "text_type": "commentary"
     }
 ]

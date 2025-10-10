@@ -1,0 +1,22 @@
+[
+    {
+        "segment_content": "This is the root first segment",
+        "id": "seg_001"
+    },
+    {
+        "segment_content": "This is the root second segment",
+        "id": "seg_002"
+    },
+    {
+        "segment_content": "This is the root third segment",
+        "id": "seg_003"
+    },
+    {
+        "segment_content": "This is the root fourth segment",
+        "id": "seg_004"
+    },
+    {
+        "segment_content": "This is the root fifth segment",
+        "id": "seg_005"
+    }
+]

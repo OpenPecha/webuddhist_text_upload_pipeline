@@ -1,0 +1,65 @@
+{
+    "text_mappings": [
+        {
+            "text_id": "commentary_text_id",
+            "segment_id": "seg_002",
+            "mappings": [
+                {
+                    "parent_text_id": "root_text_id",
+                    "segments": [
+                        "seg_002",
+                        "seg_003"
+                    ]
+                }
+            ]
+        },
+        {
+            "text_id": "commentary_text_id",
+            "segment_id": "seg_003",
+            "mappings": [
+                {
+                    "parent_text_id": "root_text_id",
+                    "segments": [
+                        "seg_003"
+                    ]
+                }
+            ]
+        },
+        {
+            "text_id": "commentary_text_id",
+            "segment_id": "seg_004",
+            "mappings": [
+                {
+                    "parent_text_id": "root_text_id",
+                    "segments": [
+                        "seg_004"
+                    ]
+                }
+            ]
+        },
+        {
+            "text_id": "commentary_text_id",
+            "segment_id": "seg_005",
+            "mappings": [
+                {
+                    "parent_text_id": "root_text_id",
+                    "segments": [
+                        "seg_005"
+                    ]
+                }
+            ]
+        },
+        {
+            "text_id": "commentary_text_id",
+            "segment_id": "seg_006",
+            "mappings": [
+                {
+                    "parent_text_id": "root_text_id",
+                    "segments": [
+                        "seg_005"
+                    ]
+                }
+            ]
+        }
+    ]
+}

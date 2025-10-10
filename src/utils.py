@@ -4,6 +4,7 @@ from typing import Any, Dict, Iterator, List, Optional
 import hashlib
 import unicodedata
 import Levenshtein
+from rapidfuzz import fuzz
 
 from config import config
 
@@ -45,6 +46,23 @@ def fuzzy_match(a: str, b: str, threshold: float = 0.95) -> bool:
     return distance >= threshold
 
 
+def fuzzy_substring_match(substring: str, text: str, threshold: float = 0.95) -> bool:
+    """
+    Returns True if the substring fuzzy-matches any part of the text with a similarity 
+    ratio greater than or equal to the threshold percentage.
+    Uses partial_ratio for substring matching within larger text.
+    """
+
+    if not substring and not text:
+        return True
+    if not substring or not text:
+        return False
+
+    similarity = fuzz.partial_ratio(substring, text) / 100.0
+
+    return similarity >= threshold
+
+
     # INSERT_YOUR_CODE
 def show_hidden_literals(text: str) -> str:
     """
@@ -81,4 +99,8 @@ def print_hidden_literals(text: str):
 
 
 if __name__ == "__main__":
-    print(fuzzy_match(" བམ་པོ་གཅིག་གོ །\n", "བམ་པོ་གཅིག་གོ །\n"))
+    # Test fuzzy_match (compares entire strings)
+    print("fuzzy_match test:", fuzzy_match(" བམ་པོ་གཅིག་གོ །\n", "བམ་པོ་གཅིག་གོ །\n"))
+    
+    # Test fuzzy_substring_match (checks if first string is within second string)
+    print("fuzzy_substring_match test:", fuzzy_substring_match("hello world", "Say hello world to everyone"))
