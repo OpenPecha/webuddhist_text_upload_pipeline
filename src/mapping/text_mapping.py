@@ -116,39 +116,63 @@ class CommentaryTextMapping:
 
         return True
 
-    def get_mapping_dict(self):
-        mapping_dict = {}
+    def get_commentary_and_root_mapping_dict(self):
+        commentary_segment_last_found_dict: dict[str, int] = {}
+
+        commentary_and_root_mapping_dict: dict[str, List[str]] = {}
 
         for commentary_text in self.look_up_list_commentary:
             if not commentary_text["segment_content"] or len(commentary_text["segment_content"]) == 0:
                 continue
-        
-            commentary_text_found = False
-            for index in range(0, len(self.mapping_data)):
-                if commentary_text["segment_content"] in self.mapping_data[index][f"commentary_{self.commentary_number}"]:
-                    if commentary_text["segment_content"] not in mapping_dict:
-                        mapping_dict[commentary_text["segment_content"]] = []
-                    mapping_dict[commentary_text["id"]].append(self.mapping_data[index]["root_display_text"])
-                    commentary_text_found = True
-                    break
-            
-            if not commentary_text_found:
-                raise ValueError(f"Commentary {commentary_text['segment_content']} not found in mapping data\nMapping data: {self.mapping_data}")
 
-        return mapping_dict
+            commentary_segment_last_found_index = commentary_segment_last_found_dict.get(commentary_text["segment_content"], 0)
+            start_index = commentary_segment_last_found_index
+
+            commentary_segment_encountered_at_least_one = False
+            for index in range(start_index, len(self.mapping_data)):
+                if not self.mapping_data[index]["root_display_text"] or len(self.mapping_data[index]["root_display_text"]) == 0:
+                    continue
+
+                if commentary_text["segment_content"] in self.mapping_data[index][f"commentary_{self.commentary_number}"]:
+                    commentary_segment_last_found_index = index + 1
+                    commentary_segment_encountered_at_least_one = True
+                    if commentary_text["id"] not in commentary_and_root_mapping_dict:
+                        commentary_and_root_mapping_dict[commentary_text["id"]] = []
+                    commentary_and_root_mapping_dict[commentary_text["id"]].append(self.mapping_data[index]["root_display_text"])
+                elif commentary_segment_encountered_at_least_one:
+                    break
+        
+        return commentary_and_root_mapping_dict
 
 
     def generate_mapping_payload(self):
-
-        mapping_dict: dict[str, List[str]] = self.get_mapping_dict()
+        
+        commentary_and_root_mapping_dict: dict[str, List[str]] = self.get_commentary_and_root_mapping_dict()
 
         mapping_payload = []
 
-        for key, value in mapping_dict.items():
+        for key, value in commentary_and_root_mapping_dict.items():
+            segment_mapping = TextMapping(
+                text_id = self.commentary_text_id,
+                segment_id = key,
+                mappings = [
+                    ParentSegmentMapping(
+                        parent_text_id = self.root_text_id,
+                        segments = []
+                    )
+                ]
+            ) 
+            segments = []
+            for root_segment_id in value:
+                segments.append(root_segment_id)
 
+            segment_mapping.mappings[0].segments = segments
 
-        
-                    
+            mapping_payload.append(segment_mapping.model_dump())
+
+        return Mapping(
+            text_mappings = mapping_payload
+        )           
 
     def write_mapping_payload_to_file(self, mapping_payload):
         with open(self.mapping_payload_file_path, "w", encoding="utf-8") as file:
@@ -162,7 +186,6 @@ class CommentaryTextMapping:
 
     def map_text_and_upload_to_webuddhist(self):
         self.validate_mapping_root_segment_present_in_root_lookup_list()
-        self.validate_commentary_lookup_list_present_in_mapping_data()
         
         self.replace_mapping_root_display_text_with_id()
 
