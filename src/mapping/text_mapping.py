@@ -22,6 +22,7 @@ MAPPING_PAYLOAD_DIR = BASE_DIR / "mapping_payload"
 from utils import (
     read_json_file,
     fuzzy_match,
+    fuzzy_substring_match,
     get_token
 )
 
@@ -133,7 +134,13 @@ class CommentaryTextMapping:
                 if not self.mapping_data[index]["root_display_text"] or len(self.mapping_data[index]["root_display_text"]) == 0:
                     continue
 
-                if commentary_text["segment_content"] in self.mapping_data[index][f"commentary_{self.commentary_number}"]:
+                # Use fuzzy substring matching instead of exact substring match
+                # This handles minor variations like whitespace, punctuation, or typos
+                if fuzzy_substring_match(
+                    commentary_text["segment_content"], 
+                    self.mapping_data[index][f"commentary_{self.commentary_number}"],
+                    threshold=0.95
+                ):
                     commentary_segment_last_found_index = index + 1
                     commentary_segment_encountered_at_least_one = True
                     if commentary_text["id"] not in commentary_and_root_mapping_dict:
