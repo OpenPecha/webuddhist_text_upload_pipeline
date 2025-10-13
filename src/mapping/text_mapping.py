@@ -187,7 +187,12 @@ class CommentaryTextMapping:
 
     def upload_mapping_payload_to_webuddhist(self, mapping_payload):
         token = get_token()
-        response = requests.post(self.mapping_upload_url, json=mapping_payload, headers={"Authorization": f"Bearer {token}"})
+        # Ensure we send a JSON-serializable payload (dict) instead of a Pydantic model instance
+        response = requests.post(
+            self.mapping_upload_url,
+            json=mapping_payload.model_dump(),
+            headers={"Authorization": f"Bearer {token}"}
+        )
         return response.json()
 
 
