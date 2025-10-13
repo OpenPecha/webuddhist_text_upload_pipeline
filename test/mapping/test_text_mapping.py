@@ -73,3 +73,16 @@ class TestCommentaryTextMapping(TestCase):
         self.assertTrue(is_mapping_root_segment_present_in_root_lookup_list)
         self.assertTrue(replace_mapping_root_display_text_with_segment_id)
         self.assertEqual(text_mapping.mapping_data, self.expected_replaced_root_text_with_segment_id)
+
+    def test_root_display_text_of_mapping_data_not_present_in_root_lookup_list(self):
+
+        text_mapping = CommentaryTextMapping.__new__(CommentaryTextMapping)
+        text_mapping.mapping_data = self.mapping_data
+        text_mapping.look_up_list_root = self.look_up_list_root
+
+        text_mapping.mapping_data[1]["root_display_text"] = "This segment is not present in the root lookup list"
+
+        with self.assertRaisesRegex(ValueError, f"Root {text_mapping.mapping_data[1]['root_display_text']} not found in look up list\nMapping data: {text_mapping.mapping_data[1]}"):
+            text_mapping.validate_mapping_root_segment_present_in_root_lookup_list()
+
+
