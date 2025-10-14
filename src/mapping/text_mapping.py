@@ -1,7 +1,18 @@
 import json
+from time import perf_counter
 import requests
 import sys
 from pathlib import Path
+import logging
+
+logging.basicConfig(
+    filename="src/mapping/mapping_log.txt",
+    filemode="a",
+    encoding="utf-8",
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    level=logging.INFO,
+)
+logger = logging.getLogger(__name__)
 
 # Add project root to Python path for imports
 project_root = str(Path(__file__).resolve().parent.parent.parent)
@@ -123,6 +134,9 @@ class CommentaryTextMapping:
         commentary_and_root_mapping_dict: dict[str, List[str]] = {}
 
         for commentary_text in self.look_up_list_commentary:
+            t0 = perf_counter()
+            logger.info(f"Processing commentary text: {commentary_text['segment_content']}")
+
             if not commentary_text["segment_content"] or len(commentary_text["segment_content"]) == 0:
                 continue
 
@@ -134,12 +148,16 @@ class CommentaryTextMapping:
                 if not self.mapping_data[index]["root_display_text"] or len(self.mapping_data[index]["root_display_text"]) == 0:
                     continue
 
-                # Use fuzzy substring matching instead of exact substring match
-                # This handles minor variations like whitespace, punctuation, or typos
-                if fuzzy_substring_match(
+                if commentary_text["segment_content"] in self.mapping_data[index][f"commentary_{self.commentary_number}"]:
+                    commentary_segment_last_found_index = index + 1
+                    commentary_segment_encountered_at_least_one = True
+                    if commentary_text["id"] not in commentary_and_root_mapping_dict:
+                        commentary_and_root_mapping_dict[commentary_text["id"]] = []
+                    commentary_and_root_mapping_dict[commentary_text["id"]].append(self.mapping_data[index]["root_display_text"])
+                elif fuzzy_substring_match(
                     commentary_text["segment_content"], 
                     self.mapping_data[index][f"commentary_{self.commentary_number}"],
-                    threshold=0.95
+                    threshold=0.98
                 ):
                     commentary_segment_last_found_index = index + 1
                     commentary_segment_encountered_at_least_one = True
@@ -148,6 +166,9 @@ class CommentaryTextMapping:
                     commentary_and_root_mapping_dict[commentary_text["id"]].append(self.mapping_data[index]["root_display_text"])
                 elif commentary_segment_encountered_at_least_one:
                     break
+
+            t1 = perf_counter()
+            logger.info(f"Time taken to process commentary text: {t1 - t0:.2f}s")
         
         return commentary_and_root_mapping_dict
 
@@ -197,15 +218,30 @@ class CommentaryTextMapping:
 
 
     def map_text_and_upload_to_webuddhist(self):
+        t0 = perf_counter()
         self.validate_mapping_root_segment_present_in_root_lookup_list()
+        t1 = perf_counter()
+        print(f"validate_mapping_root_segment_present_in_root_lookup_list took {t1 - t0:.2f}s")
         
+        t2 = perf_counter()
         self.replace_mapping_root_display_text_with_id()
+        t3 = perf_counter()
+        print(f"replace_mapping_root_display_text_with_id took {t3 - t2:.2f}s")
 
+        t4 = perf_counter()
         mapping_payload = self.generate_mapping_payload()
+        t5 = perf_counter()
+        print(f"generate_mapping_payload took {t5 - t4:.2f}s")
 
+        t6 = perf_counter()
         self.write_mapping_payload_to_file(mapping_payload)
+        t7 = perf_counter()
+        print(f"write_mapping_payload_to_file took {t7 - t6:.2f}s")
 
+        t8 = perf_counter()
         self.upload_mapping_payload_to_webuddhist(mapping_payload)
+        t9 = perf_counter()
+        print(f"upload_mapping_payload_to_webuddhist took {t9 - t8:.2f}s")
 
 if __name__ == "__main__":
 
