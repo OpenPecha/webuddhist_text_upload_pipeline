@@ -19,8 +19,8 @@ class TestSegmentUploader(TestCase):
         self.DATA_DIR = Path(__file__).parent / "data"
         self.test_text_name = "test_text"
         self.test_root_or_commentary = "root"
-        self.payload_data_file_path = self.DATA_DIR / "dummy_segment_upload_payload.json"
-        self.payload_data = read_json_file(str(self.payload_data_file_path))
+        self.payload_data_file_path = str(self.DATA_DIR / "dummy_segment_upload_payload.json")
+        self.payload_data = read_json_file(self.payload_data_file_path)
         self.segment_upload_url = "https://api.example.com/api/v1/segments"
         self.segment_content_with_segment_id_file_path = self.DATA_DIR / "dummy_segment_content_with_segment_id.json"
         
