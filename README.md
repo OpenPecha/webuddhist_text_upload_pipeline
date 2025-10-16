@@ -143,7 +143,7 @@ LOG_LEVEL=INFO
 - If credentials are not in `.env`, the application will prompt for them
 
 ### Authentication
-You'll need WebBuddhist API credentials. You can either:
+You'll need WebBuddhist API credentials. You can either do the following:
 1. **Set them in `.env` file** (not recommended for production)
 2. **Enter them when prompted** (recommended for security)
 
